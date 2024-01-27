@@ -31,7 +31,7 @@ app.get('/campgrounds', async (req, res) => {
 app.get('/campgrounds/new', (req, res) => {
     res.render('campgrounds/new');
 })
-//creates a new campground
+
 app.post('/campgrounds',async (req, res) => {
     const campground = new Campground(req.body.campground);
     await campground.save();
@@ -52,6 +52,12 @@ app.put('/campgrounds/:id', async (req,res) => {
     const { id } = req.params;
     const campground = await Campground.findByIdAndUpdate(id,{...req.body.campground});
     res.redirect(`/campgrounds/${campground._id}`);
+})
+
+app.delete('/campgrounds/:id', async (req, res) => {
+    const { id } = req.params;
+    await Campground.findByIdAndDelete(id);
+    res.redirect('/campgrounds');
 })
 //opens up a port
 app.listen(3000, () => {
